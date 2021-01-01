@@ -305,9 +305,9 @@
 		H.take_overall_damage(2,0)
 
 /datum/species/golem/wood/handle_chemicals(datum/reagent/chem, mob/living/carbon/human/H)
-	if(chem.id == "plantbgone")
+	if(chem.type == /datum/reagent/toxin/plantbgone)
 		H.adjustToxLoss(3)
-		H.reagents.remove_reagent(chem.id, REAGENTS_METABOLISM)
+		H.reagents.remove_reagent(chem.type, REAGENTS_METABOLISM)
 		return 1
 
 //Radioactive
@@ -619,14 +619,14 @@
 		C.RemoveSpell(dominate)
 
 /datum/species/golem/runic/handle_chemicals(datum/reagent/chem, mob/living/carbon/human/H)
-	if(chem.id == "holywater")
+	if(chem.type == /datum/reagent/water/holywater)
 		H.adjustFireLoss(4)
-		H.reagents.remove_reagent(chem.id, REAGENTS_METABOLISM)
+		H.reagents.remove_reagent(chem.type, REAGENTS_METABOLISM)
 
-	if(chem.id == "unholywater")
+	if(chem.type == /datum/reagent/fuel/unholywater)
 		H.adjustBruteLoss(-4)
 		H.adjustFireLoss(-4)
-		H.reagents.remove_reagent(chem.id, REAGENTS_METABOLISM)
+		H.reagents.remove_reagent(chem.type, REAGENTS_METABOLISM)
 
 
 /datum/species/golem/clockwork
@@ -909,7 +909,7 @@
 /datum/species/golem/cardboard/spec_attacked_by(obj/item/I, mob/living/user, obj/item/bodypart/affecting, intent, mob/living/carbon/human/H)
 	. = ..()
 	if(user != H)
-		return FALSE //forced reproduction is rape.
+		return FALSE //forced reproduction is r/non-con
 	if(istype(I, /obj/item/stack/sheet/cardboard))
 		var/obj/item/stack/sheet/cardboard/C = I
 		if(last_creation + brother_creation_cooldown > world.time) //no cheesing dork

@@ -22,7 +22,6 @@
 	var/cooldown = 0
 	var/obj/item/flashlight/F = null
 	var/can_flashlight = 0
-	var/scan_reagents = 0 //Can the wearer see reagents while it's equipped?
 
 	var/blocks_shove_knockdown = FALSE //Whether wearing the clothing item blocks the ability for shove to knock down.
 
@@ -73,7 +72,7 @@
 /obj/item/reagent_containers/food/snacks/clothing
 	name = "oops"
 	desc = "If you're reading this it means I messed up. This is related to moths eating clothes and I didn't know a better way to do it than making a new food object."
-	list_reagents = list("nutriment" = 1)
+	list_reagents = list(/datum/reagent/consumable/nutriment = 1)
 	tastes = list("dust" = 1, "lint" = 1)
 	foodtype = CLOTH
 

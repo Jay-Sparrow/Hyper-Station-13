@@ -5,7 +5,7 @@
 //	You do not need to raise this if you are adding new values that have sane defaults.
 //	Only raise this value when changing the meaning/format/name/layout of an existing value
 //	where you would want the updater procs below to run
-#define SAVEFILE_VERSION_MAX	21
+#define SAVEFILE_VERSION_MAX	22
 
 /*
 SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Carn
@@ -51,6 +51,11 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 		pda_style = "mono"
 	if(current_version < 20)
 		pda_color = "#808000"
+	if(current_version < 22)
+		if(features["balls_fluid"])
+			features["balls_fluid"] = /datum/reagent/consumable/semen
+		if(features["breasts_fluid"])
+			features["breasts_fluid"] = /datum/reagent/consumable/milk
 
 /datum/preferences/proc/load_path(ckey,filename="preferences.sav")
 	if(!ckey)
@@ -309,6 +314,8 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	S["backbag"]			>> backbag
 	S["jumpsuit_style"]		>> jumpsuit_style
 	S["uplink_loc"]			>> uplink_spawn_loc
+	S["custom_speech_verb"]		>> custom_speech_verb
+	S["custom_tongue"]			>> custom_tongue
 	S["feature_mcolor"]					>> features["mcolor"]
 	S["feature_lizard_tail"]			>> features["tail_lizard"]
 	S["feature_lizard_snout"]			>> features["snout"]
@@ -349,9 +356,6 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 
 	//Quirks
 	S["all_quirks"]			>> all_quirks
-	S["positive_quirks"]	>> positive_quirks
-	S["negative_quirks"]	>> negative_quirks
-	S["neutral_quirks"]		>> neutral_quirks
 
 	//Records
 	S["security_records"]			>>			security_records
@@ -478,6 +482,9 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	features["moth_markings"] 	= sanitize_inlist(features["moth_markings"], GLOB.moth_markings_list, "None")
 	features["deco_wings"] 			= sanitize_inlist(features["deco_wings"], GLOB.deco_wings_list, "None")
 
+	custom_speech_verb				= sanitize_inlist(custom_speech_verb, GLOB.speech_verbs, "default")
+	custom_tongue					= sanitize_inlist(custom_tongue, GLOB.roundstart_tongues, "default")
+
 	joblessrole	= sanitize_integer(joblessrole, 1, 3, initial(joblessrole))
 	job_civilian_high = sanitize_integer(job_civilian_high, 0, 65535, initial(job_civilian_high))
 	job_civilian_med = sanitize_integer(job_civilian_med, 0, 65535, initial(job_civilian_med))
@@ -491,9 +498,6 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	security_records				= copytext(security_records, 1, MAX_FLAVOR_LEN)
 	medical_records					= copytext(medical_records, 1, MAX_FLAVOR_LEN)
 	all_quirks = SANITIZE_LIST(all_quirks)
-	positive_quirks = SANITIZE_LIST(positive_quirks)
-	negative_quirks = SANITIZE_LIST(negative_quirks)
-	neutral_quirks = SANITIZE_LIST(neutral_quirks)
 
 	cit_character_pref_load(S)
 
@@ -542,6 +546,8 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	WRITE_FILE(S["jumpsuit_style"]		, jumpsuit_style)
 	WRITE_FILE(S["uplink_loc"]			, uplink_spawn_loc)
 	WRITE_FILE(S["species"]			, pref_species.id)
+	WRITE_FILE(S["custom_speech_verb"]		, custom_speech_verb)
+	WRITE_FILE(S["custom_tongue"]			, custom_tongue)
 	WRITE_FILE(S["feature_mcolor"]					, features["mcolor"])
 	WRITE_FILE(S["feature_lizard_tail"]			, features["tail_lizard"])
 	WRITE_FILE(S["feature_human_tail"]				, features["tail_human"])
@@ -581,9 +587,6 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	WRITE_FILE(S["medical_records"]			, medical_records)
 	//Quirks
 	WRITE_FILE(S["all_quirks"]			, all_quirks)
-	WRITE_FILE(S["positive_quirks"]		, positive_quirks)
-	WRITE_FILE(S["negative_quirks"]		, negative_quirks)
-	WRITE_FILE(S["neutral_quirks"]		, neutral_quirks)
 
 	cit_character_pref_save(S)
 

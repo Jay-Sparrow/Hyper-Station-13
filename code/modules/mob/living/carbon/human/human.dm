@@ -715,7 +715,13 @@
 	if(creamed) //clean both to prevent a rare bug
 		cut_overlay(mutable_appearance('icons/effects/creampie.dmi', "creampie_lizard"))
 		cut_overlay(mutable_appearance('icons/effects/creampie.dmi', "creampie_human"))
+		cut_overlay(mutable_appearance('hyperstation/icons/effects/cumoverlay.dmi', "cum_normal"))
+		cut_overlay(mutable_appearance('hyperstation/icons/effects/cumoverlay.dmi', "cum_large"))
 		creamed = FALSE
+
+/mob/living/carbon/human/wash_cum()
+	cut_overlay(mutable_appearance('hyperstation/icons/effects/cumoverlay.dmi', "cum_normal"))
+	cut_overlay(mutable_appearance('hyperstation/icons/effects/cumoverlay.dmi', "cum_large"))
 
 //Turns a mob black, flashes a skeleton overlay
 //Just like a cartoon!
@@ -863,6 +869,7 @@
 	.["Make slime"] = "?_src_=vars;[HrefToken()];makeslime=[REF(src)]"
 	.["Toggle Purrbation"] = "?_src_=vars;[HrefToken()];purrbation=[REF(src)]"
 	.["Copy outfit"] = "?_src_=vars;[HrefToken()];copyoutfit=[REF(src)]"
+	.["Add/Remove Quirks"] = "?_src_=vars;[HrefToken()];modquirks=[REF(src)]"
 
 /mob/living/carbon/human/MouseDrop_T(mob/living/target, mob/living/user)
 	if(pulling == target && grab_state >= GRAB_AGGRESSIVE && stat == CONSCIOUS)

@@ -487,6 +487,17 @@ It's fairly easy to fix if dealing with single letters but not so much with comp
 /mob/proc/can_hear()
 	. = TRUE
 
+//Examine text for traits shared by multiple types. I wish examine was less copypasted.
+/mob/proc/common_trait_examine()
+	if(HAS_TRAIT(src, TRAIT_DISSECTED))
+		var/dissectionmsg = ""
+		if(HAS_TRAIT_FROM(src, TRAIT_DISSECTED,"Extraterrestrial Dissection"))
+			dissectionmsg = " via Extraterrestrial Dissection. It is no longer worth experimenting on"
+		else if(HAS_TRAIT_FROM(src, TRAIT_DISSECTED,"Experimental Dissection"))
+			dissectionmsg = " via Experimental Dissection"
+		else if(HAS_TRAIT_FROM(src, TRAIT_DISSECTED,"Thorough Dissection"))
+			dissectionmsg = " via Thorough Dissection"
+		. += "<span class='notice'>This body has been dissected and analyzed[dissectionmsg].</span><br>"
 /proc/bloodtype_to_color(var/type)
 	. = BLOOD_COLOR_HUMAN
 	switch(type)
@@ -520,3 +531,7 @@ It's fairly easy to fix if dealing with single letters but not so much with comp
 	if(!held_item)
 		return
 	return held_item.GetID()
+
+//Can the mob see reagents inside of containers?
+/mob/proc/can_see_reagents()
+	return stat == DEAD || has_unlimited_silicon_privilege //Dead guys and silicons can always see reagents
